@@ -1,16 +1,18 @@
 * {
     padding: 0;
     margin: 0;
+    box-sizing: border-box;
 }
 
 body {
     width: 100%;
     height: 100vh;
-    background: radial-gradient(#882222, #35060e);
+    background: radial-gradient(circle, #882222, #35060e);
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
 }
 
 .inograte {
@@ -18,6 +20,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    text-align: center;
 }
 
 .title {
@@ -30,6 +33,22 @@ body {
     -webkit-animation: moveBg 4s linear infinite;
     animation: moveBg 4s linear infinite;
     transition: transform 0.6s ease-in-out;
+    display: flex;
+    gap: 10px;
+}
+
+.word {
+    opacity: 0;
+    transform: translateY(-50px);
+    animation: fadeIn 2s forwards, slideIn 2s forwards;
+}
+
+.word:nth-child(1) {
+    animation-delay: 0.5s;
+}
+
+.word:nth-child(2) {
+    animation-delay: 1s;
 }
 
 .title:hover {
@@ -38,20 +57,24 @@ body {
 
 button {
     width: 300px;
-    height: 40px;
-    border-radius: 10px;
+    height: 50px;
+    border-radius: 25px;
     margin-top: 20px;
     border: none;
     background: url('./image.png');
-    color: rgb(255, 0, 0);
+    color: #ff0000;
     box-shadow: 0 0 20px 10px rgba(246, 255, 0, 0.4);
-    transition: transform 0.5s ease-in-out;
+    transition: transform 0.5s ease-in-out, background 0.5s ease-in-out;
     font-size: 20px;
     font-weight: bold;
+    opacity: 0;
+    transform: translateY(50px);
+    animation: fadeIn 2s forwards 1s, slideIn 2s forwards 1s;
 }
 
 button:hover {
     transform: scale(1.05);
+    background: url('./image-hover.png');
 }
 
 .timer-container {
@@ -59,15 +82,36 @@ button:hover {
     justify-content: center;
     align-items: center;
     width: 300px;
-    height: 40px;
-    border-radius: 10px;
+    height: 50px;
+    border-radius: 25px;
     margin-top: 20px;
     background: url('./image.png');
     box-shadow: 0 0 20px 10px rgba(246, 255, 0, 0.4);
 }
 
 .timer {
-    font-size: 20px;
+    font-size: 24px;
     font-weight: bold;
-    color: rgb(255, 0, 0);
+    color: #ff0000;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    to {
+        transform: translateY(0);
+    }
+}
+
+@keyframes moveBg {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 100% 100%;
+    }
 }
