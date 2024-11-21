@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>shree devi sambhram</title>
+    <link rel="stylesheet" href="./inogration.css">
+</head>
+
+<body>
+    <div class="inograte">
+        <h1 class="title">SAMBHRAM&apos;24</h1>
+        <button id="startButton">Lets Sambhram</button>
+        <div id="timerContainer" class="timer-container" style="display:none;">
+            <div id="timer" class="timer">5</div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('startButton').addEventListener('click', function() {
+            // Hide the button
+            this.style.display = 'none';
+
+            // Show the timer container
+            document.getElementById('timerContainer').style.display = 'flex';
+
+            // Get timer element
+            const timerElement = document.getElementById('timer');
+
+            // Initial timer value
+            let timeLeft = 5;
+
+            // Set initial timer text
+            timerElement.textContent = timeLeft;
+
+            // Create timer interval
+            const countdownInterval = setInterval(() => {
+                // Decrease time
+                timeLeft--;
+
+                // Update timer display
+                timerElement.textContent = timeLeft;
+
+                // When timer reaches 0
+                if (timeLeft <= 0) {
+                    // Clear the interval
+                    clearInterval(countdownInterval);
+
+                    // Redirect to another page
+                    window.location.href = 'http://shreedevisambhram.in.s3-website.ap-south-1.amazonaws.com/'; // Replace with your actual redirect page
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+
+</html>
