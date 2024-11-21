@@ -7,15 +7,31 @@
 body {
     width: 100%;
     height: 100vh;
-    background: radial-gradient(circle, #882222, #35060e);
+    background: linear-gradient(45deg, #882222, #35060e);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
     display: flex;
     justify-content: center;
     align-items: center;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     overflow: hidden;
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.7) 100%);
+    z-index: 0;
 }
 
 .inograte {
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -38,6 +54,22 @@ body {
     animation: fadeIn 2s forwards;
 }
 
+.subtitle {
+    font-size: 24px;
+    color: #ffffff;
+    margin-top: 10px;
+    opacity: 0;
+    animation: fadeIn 2s forwards 1s;
+}
+
+.description {
+    font-size: 18px;
+    color: #ffd700;
+    margin-top: 10px;
+    opacity: 0;
+    animation: fadeIn 2s forwards 1.5s;
+}
+
 .title:hover {
     transform: scale(1.06);
 }
@@ -48,39 +80,188 @@ button {
     border-radius: 25px;
     margin-top: 20px;
     border: none;
-    background: url('./image.png');
-    color: #ff0000;
+    background: linear-gradient(45deg, #ff4e50, #f9d423);
+    color: #8B0000; /* Dark red color */
     box-shadow: 0 0 20px 10px rgba(246, 255, 0, 0.4);
     transition: transform 0.5s ease-in-out, background 0.5s ease-in-out;
     font-size: 20px;
     font-weight: bold;
     opacity: 0;
     animation: fadeIn 2s forwards 1s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.button-icon {
+    font-size: 24px;
+    transform: scale(1);
+    transition: transform 0.3s ease;
 }
 
 button:hover {
     transform: scale(1.05);
     background: url('./image-hover.png');
+    color: #FFD700; /* Golden color on hover */
+}
+
+button:hover .button-icon {
+    transform: scale(1.2) rotate(15deg);
+}
+
+.button-text {
+    transition: color 0.3s ease; /* Smooth color transition */
 }
 
 .timer-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    margin-top: 20px;
-    background: radial-gradient(circle, #ffcc00, #ff9900);
-    box-shadow: 0 0 20px 10px rgba(246, 255, 0, 0.4);
-    animation: fadeIn 2s forwards 1s;
+    background: transparent;
+    z-index: 100;
 }
 
 .timer {
-    font-size: 48px;
+    font-size: 25vw; /* reduced from 35vw */
+    color: #ffd700;
     font-weight: bold;
-    color: #ffffff;
-    animation: pulse 1s infinite;
+    opacity: 0;
+    transform: scale(1.5);
+    transition: all 0.3s ease-out;
+}
+
+.timer.number-change {
+    animation: simpleScale 0.3s ease-out;
+}
+
+.timer-container.show .timer {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.timer.final-animation {
+    animation: finalNumberBlast 1.2s forwards; /* Changed from 0.8s to 1.2s */
+}
+
+.final-burst {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, #ffd700, transparent);
+    opacity: 0;
+    z-index: 99;
+    animation: burstEffect 1s forwards;
+}
+
+@keyframes simpleScale {
+    from { transform: scale(1.2); }
+    to { transform: scale(1); }
+}
+
+@media (max-width: 768px) {
+    .timer {
+        font-size: 35vw; /* reduced from 50vw */
+    }
+}
+
+.particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background: radial-gradient(circle at center, transparent 0%, rgba(255,255,255,0.1) 100%);
+    animation: particleMove 20s linear infinite;
+    display: none; /* Remove old particles */
+}
+
+.floating-particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: rgba(255, 215, 0, 0.6);
+    border-radius: 50%;
+    animation: floatParticle var(--duration) ease-in-out infinite;
+    animation-delay: var(--delay);
+}
+
+.blast-container {
+    position: fixed;
+    width: 1px;
+    height: 1px;
+    pointer-events: none;
+    z-index: 150;
+}
+
+.blast-particle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #ffd700;
+    border-radius: 50%;
+    transform-origin: center;
+}
+
+.blast-ring {
+    position: absolute;
+    border: 2px solid #ffd700;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: blastRing 0.6s ease-out forwards;
+}
+
+.final-flash {
+    position: absolute;
+    top: -100px;
+    left: -100px;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, white, transparent 70%);
+    opacity: 0;
+    z-index: 140;
+    animation: flash 0.8s ease-out forwards;
+}
+
+.pop-effect {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    z-index: 160;
+    animation: popAnimation 0.8s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+
+.sparkle {
+    position: absolute;
+    width: 2px;
+    height: 12px;
+    background: white;
+    border-radius: 2px;
+    transform-origin: center -10px;
+    animation: sparkleAnimation 0.6s ease-out forwards;
 }
 
 @keyframes fadeIn {
@@ -107,5 +288,168 @@ button:hover {
     }
     100% {
         transform: scale(1);
+    }
+}
+
+@keyframes particleMove {
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+    100% {
+        transform: translateY(-100vh) rotate(360deg);
+    }
+}
+
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes floatParticle {
+    0% {
+        transform: translate(var(--start-x), 100vh) scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: translate(var(--mid-x), var(--mid-y)) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--end-x), -100px) scale(0);
+        opacity: 0;
+    }
+}
+
+@keyframes finalNumber {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.5) rotate(10deg);
+        opacity: 0.8;
+        text-shadow: 0 0 40px #ffd700, 0 0 80px #ffd700, 0 0 120px #ff4e50;
+    }
+    100% {
+        transform: scale(0) rotate(-20deg);
+        opacity: 0;
+        text-shadow: 0 0 60px #ffd700, 0 0 100px #ffd700, 0 0 140px #ff4e50;
+    }
+}
+
+@keyframes burstEffect {
+    0% {
+        transform: scale(0.1);
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+@keyframes blastRing {
+    0% {
+        width: 0;
+        height: 0;
+        border-width: 20px;
+        opacity: 1;
+    }
+    100% {
+        width: 200vw;
+        height: 200vw;
+        border-width: 0;
+        opacity: 0;
+    }
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes flash {
+    0% { opacity: 0; }
+    50% { opacity: 0.6; } /* Reduced from 0.8 to 0.6 */
+    100% { opacity: 0; }
+    animation-duration: 0.8s; /* Changed from 0.5s to 0.8s */
+}
+
+@keyframes blastParticle {
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--x), var(--y)) scale(0);
+        opacity: 0;
+    }
+}
+
+@keyframes finalNumberBlast {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% { /* Added new keyframe */
+        transform: scale(1.5);
+        opacity: 0.9;
+        text-shadow: 0 0 50px #ffd700, 0 0 100px #ff4e50;
+    }
+    75% { /* Added new keyframe */
+        transform: scale(1.8);
+        opacity: 0.5;
+        text-shadow: 0 0 65px #ffd700, 0 0 130px #ff4e50;
+    }
+    100% {
+        transform: scale(0);
+        opacity: 0;
+        text-shadow: 0 0 80px #ffd700, 0 0 160px #ff4e50;
+    }
+}
+
+@keyframes popAnimation {
+    0% {
+        transform: scale(0) rotate(0deg);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.5) rotate(180deg);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(0) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+@keyframes sparkleAnimation {
+    0% {
+        transform: rotate(var(--angle)) translateY(0) scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: rotate(var(--angle)) translateY(40px) scale(1);
+        opacity: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .title {
+        font-size: 60px;
+    }
+    
+    .subtitle {
+        font-size: 20px;
+    }
+    
+    button {
+        width: 250px;
     }
 }
