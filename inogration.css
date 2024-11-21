@@ -56,9 +56,8 @@ body {
 }
 
 button {
-    width: 300px;
-    height: 50px;
-    border-radius: 25px;
+    height: 40px;
+    border-radius: 10px;
     margin-top: 20px;
     border: none;
     background: url('./image.png');
@@ -67,9 +66,7 @@ button {
     transition: transform 0.5s ease-in-out, background 0.5s ease-in-out;
     font-size: 20px;
     font-weight: bold;
-    opacity: 0;
-    transform: translateY(50px);
-    animation: fadeIn 2s forwards 1s, slideIn 2s forwards 1s;
+    width: 300px;
 }
 
 button:hover {
@@ -78,40 +75,19 @@ button:hover {
 }
 
 .timer-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 300px;
-    height: 50px;
-    border-radius: 25px;
     margin-top: 20px;
-    background: url('./image.png');
-    box-shadow: 0 0 20px 10px rgba(246, 255, 0, 0.4);
+    display: none;
 }
 
 .timer {
-    font-size: 24px;
+    font-size: 100px;
     font-weight: bold;
-    color: #ff0000;
-}
-
-@keyframes fadeIn {
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes slideIn {
-    to {
-        transform: translateY(0);
-    }
-}
-
-@keyframes moveBg {
-    0% {
-        background-position: 0 0;
-    }
-    100% {
-        background-position: 100% 100%;
-    }
+    text-shadow: 0 0 10px 10px rgb(254, 249, 249);
+    background: url("./image.png");
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-animation: moveBg 4s linear infinite;
+    animation: moveBg 4s linear infinite;
 }
